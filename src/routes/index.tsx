@@ -1,21 +1,50 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { Download, Linkedin, Mail } from "lucide-react";
+import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
+import {
+  Archive,
+  ArrowDown,
+  ArrowRight,
+  CheckCircle2,
+  ClipboardCheck,
+  Database,
+  Download,
+  Eye,
+  FileArchive,
+  FileCheck2,
+  FileInput,
+  FileSearch,
+  Files,
+  FolderKanban,
+  Linkedin,
+  ListChecks,
+  LockKeyhole,
+  Mail,
+  Menu,
+  Network,
+  PenLine,
+  Send,
+  ShieldCheck,
+  UsersRound,
+  X,
+} from "lucide-react";
+
+import portraitPlaceholder from "@/assets/eduardo-portrait-placeholder.jpg";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title: "Pel Scofield — Document Control | Office Administration | Project Coordination",
+        title: "Eduardo Yahot — Document Control & Project Administration Professional",
       },
       {
         name: "description",
         content:
-          "Portfolio of Pel Scofield — a highly organized professional with 28 years of experience in document control, office administration, and project coordination within multinational companies.",
+          "Executive portfolio of Eduardo Yahot, a document control, office administration, and project coordination professional with 28 years of multinational experience.",
       },
       {
         property: "og:title",
-        content: "Pel Scofield — Document Control | Office Administration | Project Coordination",
+        content: "Eduardo Yahot — Document Control & Project Administration Professional",
       },
       {
         property: "og:description",
@@ -23,225 +52,262 @@ export const Route = createFileRoute("/")({
           "28 years of multinational experience in document control, office administration, and project coordination.",
       },
       { property: "og:type", content: "website" },
+      {
+        property: "og:url",
+        content: "https://seasoned-professional-portfolio.lovable.app/",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [
+      {
+        rel: "canonical",
+        href: "https://seasoned-professional-portfolio.lovable.app/",
+      },
+    ],
   }),
-  component: Index,
+  component: Portfolio,
 });
 
-/* ------------------------------------------------------------------ */
-/* Replace these three values with the real details when ready.        */
-/* ------------------------------------------------------------------ */
-const EMAIL = "pel.scofield@email.com";
-const LINKEDIN_URL = "https://www.linkedin.com/in/your-profile";
-const CV_URL = "/resume.pdf"; // add resume.pdf to the /public folder
+/* All editable portfolio content is centralized here. */
+const PROFILE = {
+  name: "Eduardo Yahot",
+  initials: "EY",
+  email: "eduardoyahot.va@gmail.com",
+  linkedin: "https://www.linkedin.com/in/eduardo-y-2a6930400/",
+  cvUrl: "", // Add a public CV file path here, for example: /eduardo-yahot-cv.pdf
+  title: "Document Control | Office Administration | Project Coordination",
+  headline: "28 Years of Experience in Document Control & Project Administration",
+  summary:
+    "Highly organized and adaptable professional with 28 years of extensive experience within multinational companies, specializing in document control, office administration, and project coordination.",
+};
 
 const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Tools", href: "#tools" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#home", id: "home" },
+  { label: "About", href: "#about", id: "about" },
+  { label: "Experience", href: "#experience", id: "experience" },
+  { label: "Expertise", href: "#expertise", id: "expertise" },
+  { label: "Tools", href: "#tools", id: "tools" },
+  { label: "Contact", href: "#contact", id: "contact" },
 ];
 
-const SKILLS = [
+const SNAPSHOT = [
+  { value: "28+", label: "Years of experience" },
+  { value: "Global", label: "Multinational environments" },
+  { value: "End-to-end", label: "Document control" },
+  { value: "Cross-team", label: "Project coordination" },
+];
+
+const EXPERIENCE = [
   {
+    period: "YYYY — YYYY",
+    company: "[Company name]",
+    role: "[Job title]",
+    location: "[City, Country]",
+    details: [
+      "[Add a concise responsibility, contribution, or achievement from this role.]",
+      "[Add the systems, document scope, or project teams supported.]",
+    ],
+  },
+  {
+    period: "YYYY — YYYY",
+    company: "[Company name]",
+    role: "[Job title]",
+    location: "[City, Country]",
+    details: [
+      "[Add a concise responsibility, contribution, or achievement from this role.]",
+      "[Add the systems, document scope, or project teams supported.]",
+    ],
+  },
+  {
+    period: "YYYY — YYYY",
+    company: "[Company name]",
+    role: "[Job title]",
+    location: "[City, Country]",
+    details: [
+      "[Add a concise responsibility, contribution, or achievement from this role.]",
+      "[Add the systems, document scope, or project teams supported.]",
+    ],
+  },
+];
+
+const EXPERTISE: Array<{
+  number: string;
+  title: string;
+  description: string;
+  icon: ComponentType<{ className?: string }>;
+}> = [
+  {
+    number: "01",
     title: "Document Control Management",
-    description:
-      "Full lifecycle control of project and corporate documentation — numbering, revisions, review cycles, and audit-ready accuracy.",
+    description: "Controlled numbering, revision, review, approval, transmittal, and traceable closeout across the full document lifecycle.",
+    icon: Files,
   },
   {
-    title: "Electronic Document Management Systems (EDMS)",
-    description:
-      "Administration and day-to-day operation of EDMS platforms across large multinational teams and disciplines.",
+    number: "02",
+    title: "Electronic Document Management Systems",
+    description: "Disciplined EDMS administration that keeps project information current, searchable, secure, and available to the right stakeholders.",
+    icon: Database,
   },
   {
+    number: "03",
     title: "Quality Assurance & Distribution Matrices",
-    description:
-      "Maintaining QA standards and controlled distribution matrices so the right people receive the right revision, every time.",
+    description: "Accurate checks and controlled distribution practices that protect document integrity and prevent superseded information from circulating.",
+    icon: ShieldCheck,
   },
   {
+    number: "04",
     title: "Project Administration & Coordination",
-    description:
-      "Supporting project teams with scheduling, correspondence, meetings, minutes, and follow-up across departments and time zones.",
+    description: "Reliable coordination of correspondence, meetings, registers, follow-ups, and team requirements across disciplines and time zones.",
+    icon: FolderKanban,
   },
   {
-    title: "Information Management & Archiving",
-    description:
-      "Structured management of hardcopy and digital archives — organized, searchable, and compliant with retention requirements.",
+    number: "05",
+    title: "Information Management",
+    description: "Clear structures for naming, classification, retrieval, access, and continuity throughout active projects and corporate operations.",
+    icon: Network,
   },
   {
+    number: "06",
+    title: "Hardcopy & Digital Archiving",
+    description: "Orderly, retention-aware archives designed for efficient retrieval, handover, audit, and long-term reference.",
+    icon: FileArchive,
+  },
+  {
+    number: "07",
     title: "Record Keeping",
-    description:
-      "Precise, consistent records that stand up to internal audits and external review at any point in a document's life.",
+    description: "Consistent registers and dependable records that create a clear, verifiable trail of decisions, submissions, and status.",
+    icon: ListChecks,
   },
   {
+    number: "08",
     title: "Contract Documentation Support",
-    description:
-      "Preparing, tracking, and controlling contract documentation alongside legal and project stakeholders.",
+    description: "Structured document support for contract packages, formal correspondence, submissions, and stakeholder review cycles.",
+    icon: FileCheck2,
   },
+];
+
+const WORKFLOW = [
+  { label: "Receive", description: "Capture incoming documents", icon: FileInput },
+  { label: "Review", description: "Check quality and completeness", icon: FileSearch },
+  { label: "Register", description: "Log metadata and status", icon: PenLine },
+  { label: "Distribute", description: "Route controlled copies", icon: Send },
+  { label: "Track", description: "Monitor actions and revisions", icon: Eye },
+  { label: "Archive", description: "Preserve the final record", icon: Archive },
 ];
 
 const TOOLS = [
-  { name: "AIM", label: "Document control platform" },
-  { name: "Techniplanet", label: "Engineering document management" },
-  { name: "Canva", label: "Presentations & visual materials" },
-  { name: "Microsoft Teams", label: "Collaboration & communication" },
-  { name: "Zoom", label: "Remote meetings & coordination" },
-  { name: "Google Workspace", label: "Docs, Sheets, Drive & more" },
+  { name: "AIM", type: "monogram", description: "Document and information management platform" },
+  { name: "Techniplanet", type: "monogram", description: "Engineering document management system" },
+  { name: "Canva", type: "canva", description: "Professional visual communication and presentations" },
+  { name: "Microsoft Teams", type: "teams", description: "Cross-team communication and collaboration" },
+  { name: "Zoom", type: "zoom", description: "Remote meetings and stakeholder coordination" },
+  { name: "Google Workspace", type: "google", description: "Documents, spreadsheets, storage, and shared workflows" },
 ];
 
-/*
- * Employment history — replace the placeholder entries below with the real
- * positions. Each entry supports: company, position, period, location,
- * and a list of responsibilities or achievements.
- */
-const EXPERIENCE = [
-  {
-    company: "Company Name",
-    position: "Position Title",
-    period: "20XX – 20XX",
-    location: "City, Country",
-    responsibilities: [
-      "Describe a key responsibility or achievement.",
-      "Describe another area you owned or improved.",
-      "Add a third point if relevant.",
-    ],
-  },
-  {
-    company: "Company Name",
-    position: "Position Title",
-    period: "20XX – 20XX",
-    location: "City, Country",
-    responsibilities: [
-      "Describe a key responsibility or achievement.",
-      "Describe another area you owned or improved.",
-    ],
-  },
+const STRENGTHS = [
+  "Organization",
+  "Accuracy",
+  "Adaptability",
+  "Coordination",
+  "Information Management",
+  "Confidentiality",
+  "Attention to Detail",
+  "Process Discipline",
 ];
 
-function Reveal({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
+function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          node.classList.add("is-visible");
+          observer.unobserve(node);
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px -48px" },
     );
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div ref={ref} className={`reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={ref} className={`reveal ${className}`}>
       {children}
     </div>
   );
 }
 
-function SectionHeading({
-  eyebrow,
-  title,
-  intro,
-}: {
-  eyebrow: string;
-  title: string;
-  intro?: string;
-}) {
+function SectionTitle({ index, eyebrow, title, intro }: { index: string; eyebrow: string; title: string; intro?: string }) {
   return (
-    <Reveal className="mx-auto max-w-2xl text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>
-      <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-        {title}
-      </h2>
-      <div className="mx-auto mt-4 h-px w-16 bg-primary/30" />
-      {intro ? <p className="mt-4 text-base leading-relaxed text-muted-foreground">{intro}</p> : null}
+    <Reveal className="grid gap-5 border-t border-border pt-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-10">
+      <div className="flex items-center gap-3 self-start text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+        <span>{index}</span>
+        <span className="h-px w-8 bg-primary/40" />
+      </div>
+      <div className="max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
+        <h2 className="mt-3 font-display text-4xl font-semibold leading-[1.08] text-foreground sm:text-5xl">{title}</h2>
+        {intro ? <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">{intro}</p> : null}
+      </div>
     </Reveal>
   );
 }
 
-function Monogram({ size = "md" }: { size?: "md" | "lg" }) {
-  const dims = size === "lg" ? "h-20 w-20 text-2xl" : "h-11 w-11 text-sm";
-  return (
-    <div
-      className={`${dims} grid shrink-0 place-items-center rounded-full bg-primary font-display font-semibold text-primary-foreground`}
-    >
-      PS
-    </div>
-  );
-}
-
 function Navigation() {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("home");
+
+  useEffect(() => {
+    const sections = NAV_LINKS.map((item) => document.getElementById(item.id)).filter(Boolean) as HTMLElement[];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-20% 0px -65%", threshold: [0, 0.15, 0.5] },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/90 backdrop-blur-md">
-      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:flex sm:justify-between sm:px-6">
-        <a href="#home" className="flex min-w-0 items-center gap-3">
-          <Monogram />
-          <span className="truncate font-display text-lg font-semibold tracking-tight text-foreground">
-            Pel Scofield
-          </span>
+    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur-md">
+      <div className="mx-auto grid h-18 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:flex sm:justify-between sm:px-8 lg:px-12">
+        <a href="#home" className="flex min-w-0 items-center gap-3" aria-label="Eduardo Yahot, home">
+          <span className="grid h-9 w-9 shrink-0 place-items-center border border-primary bg-primary text-xs font-semibold text-primary-foreground">EY</span>
+          <span className="truncate font-display text-xl font-semibold text-foreground">Eduardo Yahot</span>
         </a>
-
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary navigation">
           {NAV_LINKS.map((link) => (
             <a
-              key={link.href}
+              key={link.id}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className={`nav-link ${active === link.id ? "is-active" : ""}`}
+              aria-current={active === link.id ? "page" : undefined}
             >
               {link.label}
             </a>
           ))}
         </nav>
-
-        <button
+        <Button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          variant="outline"
+          size="icon"
+          className="shrink-0 lg:hidden"
+          onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
-          aria-label="Toggle navigation menu"
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border text-foreground md:hidden"
+          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-            {open ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            )}
-          </svg>
-        </button>
-
+          {open ? <X /> : <Menu />}
+        </Button>
         {open ? (
-          <nav
-            aria-label="Mobile"
-            className="col-span-2 flex flex-col border-t border-border/70 pb-3 pt-2 md:hidden"
-          >
+          <nav className="col-span-2 grid border-t border-border py-3 sm:absolute sm:left-0 sm:right-0 sm:top-18 sm:bg-background sm:px-8 lg:hidden" aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
+              <a key={link.id} href={link.href} onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-sm font-medium text-foreground last:border-0">
                 {link.label}
               </a>
             ))}
@@ -254,116 +320,98 @@ function Navigation() {
 
 function Hero() {
   return (
-    <section id="home" className="scroll-mt-20 bg-beige">
-      <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-4xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
-        <Reveal>
-          <div className="relative mx-auto h-36 w-36">
-            {/* Placeholder profile photo — replace this block with:
-                <img src="/profile.jpg" alt="Pel Scofield" className="h-36 w-36 rounded-full object-cover border-4 border-background shadow-md" /> */}
-            <div className="grid h-36 w-36 place-items-center rounded-full border border-primary/20 bg-blue-tint shadow-sm">
-              <span className="font-display text-4xl font-semibold text-primary">PS</span>
+    <section id="home" className="relative scroll-mt-20 overflow-hidden bg-ivory">
+      <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="relative mx-auto grid min-h-[calc(100svh-4.5rem)] max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 md:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.72fr)] md:py-20 lg:gap-24 lg:px-12">
+        <div className="max-w-4xl">
+          <Reveal>
+            <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              <span className="h-px w-12 bg-primary" />
+              Executive professional portfolio
             </div>
-            <span className="absolute inset-0 -z-10 translate-y-1.5 rounded-full border border-primary/15" />
+            <p className="mt-8 font-display text-2xl font-medium text-primary sm:text-3xl">{PROFILE.name}</p>
+            <h1 className="mt-5 max-w-4xl font-display text-5xl font-semibold leading-[0.98] text-foreground sm:text-6xl lg:text-7xl">
+              28 Years of Experience in <span className="italic text-primary">Document Control</span> & Project Administration
+            </h1>
+            <p className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-foreground/75">{PROFILE.title}</p>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">{PROFILE.summary}</p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="h-12 rounded-none px-6">
+                <a href="#experience">View Experience <ArrowDown /></a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="h-12 rounded-none border-foreground/25 bg-transparent px-6">
+                <a href={`mailto:${PROFILE.email}`}>Contact Me <Mail /></a>
+              </Button>
+              <Button asChild variant="ghost" size="lg" className="h-12 rounded-none px-5">
+                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">LinkedIn <Linkedin /></a>
+              </Button>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal className="relative mx-auto w-full max-w-md md:max-w-none">
+          <div className="absolute -left-6 top-8 h-[82%] w-full border border-primary/20 bg-blue-tint" aria-hidden="true" />
+          <figure className="relative border border-border bg-background p-3 shadow-editorial">
+            {/* Replace this imported placeholder with Eduardo's real portrait when supplied. */}
+            <img
+              src={portraitPlaceholder}
+              alt="Generic corporate portrait placeholder—not Eduardo Yahot"
+              width={1200}
+              height={1500}
+              className="aspect-[4/5] w-full object-cover object-top grayscale-[12%]"
+            />
+            <figcaption className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-t border-border px-1 pt-3 text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+              <span className="min-w-0">Portrait placeholder — replace with Eduardo’s photo</span>
+              <span className="shrink-0 text-primary">01 / Profile</span>
+            </figcaption>
+          </figure>
+        </Reveal>
+      </div>
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <a href="#about" className="absolute bottom-6 right-5 hidden items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary md:flex">
+          Continue <ArrowDown className="h-4 w-4" />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function Snapshot() {
+  return (
+    <section aria-label="Career snapshot" className="bg-primary text-primary-foreground">
+      <div className="mx-auto grid max-w-7xl sm:grid-cols-2 lg:grid-cols-4">
+        {SNAPSHOT.map((item, index) => (
+          <div key={item.label} className="border-b border-primary-foreground/15 px-6 py-7 sm:border-r sm:px-8 lg:border-b-0 lg:px-9 last:border-r-0">
+            <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-primary-foreground/55">0{index + 1}</span>
+            <p className="mt-3 font-display text-2xl font-semibold">{item.value}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.13em] text-primary-foreground/70">{item.label}</p>
           </div>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <h1 className="mt-8 font-display text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Pel Scofield
-          </h1>
-        </Reveal>
-
-        <Reveal delay={180}>
-          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-primary sm:text-base">
-            Document Control&nbsp;|&nbsp;Office Administration&nbsp;|&nbsp;Project Coordination
-          </p>
-        </Reveal>
-
-        <Reveal delay={260}>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Highly organized and adaptable professional with 28 years of extensive experience
-            within multinational companies, specializing in document control, office
-            administration, and project coordination.
-          </p>
-        </Reveal>
-
-        <Reveal delay={340}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#contact"
-              className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-            >
-              Get in Touch
-            </a>
-            <a
-              href="#experience"
-              className="rounded-lg border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
-            >
-              View Experience
-            </a>
-          </div>
-        </Reveal>
+        ))}
       </div>
     </section>
   );
 }
 
 function About() {
-  const highlights = [
-    "28 years of multinational corporate experience",
-    "Reliability and consistency across every assignment",
-    "Meticulous organization and documentation accuracy",
-    "Adaptable to teams, systems, and time zones",
-    "Clear coordination between departments and stakeholders",
-    "Calm, methodical approach under pressure",
-  ];
-
   return (
-    <section id="about" className="scroll-mt-20 bg-background py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="About Me"
-          title="A career built on order, accuracy, and trust"
-        />
-        <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]">
-          <Reveal className="space-y-5 text-base leading-relaxed text-muted-foreground">
-            <p>
-              For 28 years I have worked within multinational companies, where documentation is
-              the backbone of every project and administration is what keeps teams moving. I have
-              built my career on being the person colleagues rely on for accuracy, structure, and
-              follow-through.
-            </p>
-            <p>
-              From document control and EDMS administration to project coordination and archiving,
-              I bring the same standard to every task: complete, correct, and on time. Working
-              across cultures, departments, and time zones has taught me to adapt quickly while
-              never compromising on precision.
-            </p>
-            <p>
-              I take pride in calm, dependable work — the kind that makes audits uneventful and
-              handovers effortless.
-            </p>
+    <section id="about" className="scroll-mt-20 bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <SectionTitle index="01" eyebrow="About Eduardo" title="Steady expertise behind complex operations" />
+        <div className="mt-14 grid gap-12 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-20 lg:ml-[11.5rem]">
+          <Reveal>
+            <blockquote className="border-l-2 border-primary pl-6 font-display text-2xl leading-snug text-foreground sm:text-3xl">
+              “Clear records, accurate information, and dependable follow-through create the foundation for confident project decisions.”
+            </blockquote>
           </Reveal>
-          <Reveal delay={120}>
-            <ul className="space-y-3 rounded-2xl border border-border bg-beige p-6 shadow-sm sm:p-8">
-              {highlights.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <svg
-                    className="mt-0.5 h-5 w-5 shrink-0 text-primary"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M20 6 9 17l-5-5" />
-                  </svg>
-                  <span className="text-sm font-medium leading-relaxed text-foreground">{item}</span>
-                </li>
+          <Reveal className="space-y-6 text-base leading-8 text-muted-foreground">
+            <p>Eduardo brings nearly three decades of experience supporting structured multinational corporate environments where accuracy, confidentiality, and document integrity are essential.</p>
+            <p>His professional approach combines disciplined document control with adaptable office and project administration. He understands how reliable information flow supports teams, reduces risk, and keeps complex work moving across departments, disciplines, and time zones.</p>
+            <p>Known for organization and consistency, Eduardo approaches every register, archive, distribution cycle, and coordination task with care—protecting both the detail and the larger project objective.</p>
+            <div className="grid gap-3 border-t border-border pt-6 sm:grid-cols-2">
+              {["Multinational experience", "Document integrity", "Cross-team coordination", "Structured environments"].map((item) => (
+                <div key={item} className="flex items-center gap-3 text-sm font-medium text-foreground"><CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />{item}</div>
               ))}
-            </ul>
+            </div>
           </Reveal>
         </div>
       </div>
@@ -373,150 +421,150 @@ function About() {
 
 function Experience() {
   return (
-    <section id="experience" className="scroll-mt-20 bg-beige py-20 sm:py-24">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Professional Experience"
-          title="Employment history"
-          intro="A chronological overview of roles across multinational companies. Positions will be added here as the timeline is completed."
-        />
-
-        <div className="relative mt-14">
-          <div className="absolute left-[11px] top-2 bottom-2 w-px bg-primary/20 sm:left-[15px]" aria-hidden="true" />
-
-          <ol className="space-y-10">
-            {EXPERIENCE.map((job, i) => (
-              <li key={i} className="relative pl-10 sm:pl-14">
-                <span
-                  className="absolute left-0 top-1.5 grid h-6 w-6 place-items-center rounded-full border border-primary/30 bg-background sm:h-8 sm:w-8"
-                  aria-hidden="true"
-                >
-                  <span className="h-2 w-2 rounded-full bg-primary" />
-                </span>
-                <Reveal>
-                  <div className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md sm:p-7">
-                    <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
-                      <div className="min-w-0">
-                        <h3 className="font-display text-xl font-semibold text-foreground">
-                          {job.company}
-                        </h3>
-                        <p className="mt-1 text-sm font-medium text-primary">{job.position}</p>
-                      </div>
-                      <div className="flex shrink-0 flex-wrap items-center gap-2 text-xs">
-                        <span className="rounded-full bg-secondary px-3 py-1 font-semibold text-secondary-foreground">
-                          {job.period}
-                        </span>
-                        <span className="rounded-full border border-border px-3 py-1 text-muted-foreground">
-                          {job.location}
-                        </span>
-                      </div>
+    <section id="experience" className="scroll-mt-20 bg-beige py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <SectionTitle index="02" eyebrow="Professional Experience" title="A 28-year career, ready to document in full" intro="The framework below is intentionally ready for Eduardo’s exact LinkedIn history. No employer, title, date, location, or achievement has been invented." />
+        <div className="relative mt-16 md:mt-20">
+          <div className="absolute bottom-0 left-3 top-0 w-px bg-primary/25 md:left-1/2" aria-hidden="true" />
+          <ol className="space-y-10 md:space-y-0">
+            {EXPERIENCE.map((job, index) => (
+              <li key={index} className={`relative pl-12 md:grid md:grid-cols-2 md:pl-0 ${index > 0 ? "md:-mt-8" : ""}`}>
+                <span className="absolute left-0 top-7 grid h-6 w-6 place-items-center border border-primary bg-beige md:left-1/2 md:-translate-x-1/2" aria-hidden="true"><span className="h-1.5 w-1.5 bg-primary" /></span>
+                <Reveal className={`${index % 2 === 0 ? "md:col-start-1 md:pr-16" : "md:col-start-2 md:pl-16"}`}>
+                  <article className="border-t border-primary/40 bg-background p-6 shadow-editorial sm:p-8">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Editable entry {index + 1}</span>
+                      <span className="text-xs text-muted-foreground">{job.period}</span>
                     </div>
-                    <ul className="mt-4 space-y-2">
-                      {job.responsibilities.map((item, j) => (
-                        <li key={j} className="flex items-start gap-2.5 text-sm leading-relaxed text-muted-foreground">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" aria-hidden="true" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
+                    <h3 className="mt-6 font-display text-2xl font-semibold text-foreground">{job.role}</h3>
+                    <p className="mt-1 font-medium text-primary">{job.company}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{job.location}</p>
+                    <ul className="mt-6 space-y-3 border-t border-border pt-5">
+                      {job.details.map((detail) => <li key={detail} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="mt-2 h-1 w-1 shrink-0 bg-primary" />{detail}</li>)}
                     </ul>
-                  </div>
+                  </article>
                 </Reveal>
               </li>
             ))}
           </ol>
+          <div className="relative mt-12 flex items-center justify-center">
+            <span className="relative border border-primary/30 bg-beige px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary">Add earlier roles as needed</span>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Skills() {
+function Expertise() {
   return (
-    <section id="skills" className="scroll-mt-20 bg-background py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Core Competencies & Skills"
-          title="What I bring to a team"
-          intro="Decades of hands-on practice across the full documentation and administration lifecycle."
-        />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SKILLS.map((skill, i) => (
-            <Reveal key={skill.title} delay={(i % 3) * 90}>
-              <div className="group h-full rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-blue-tint text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    {i === 0 && <path d="M4 7V4h16v3M9 20h6M12 4v16M8 8h.01M8 12h.01M8 16h.01M16 8h.01M16 12h.01M16 16h.01" />}
-                    {i === 1 && <path d="M4 6c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Zm0 0v12c0 1.1 3.6 2 8 2s8-.9 8-2V6" />}
-                    {i === 2 && <path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />}
-                    {i === 3 && <path d="M3 3h18v18H3zM3 9h18M9 21V9" />}
-                    {i === 4 && <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v11Z" />}
-                    {i === 5 && <path d="M3 12a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h3M3 12v7a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H3" />}
-                    {i === 6 && <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6ZM14 2v6h6M9 13h6M9 17h6" />}
-                  </svg>
+    <section id="expertise" className="scroll-mt-20 bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <SectionTitle index="03" eyebrow="Core Expertise" title="Depth across the information lifecycle" intro="A connected practice spanning controlled documentation, reliable administration, and precise project support." />
+        <div className="mt-16 grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-4">
+          {EXPERTISE.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Reveal key={item.title} className="group border-b border-r border-border bg-background p-6 transition-colors hover:bg-blue-tint sm:p-8">
+                <div className="flex items-center justify-between">
+                  <Icon className="h-6 w-6 text-primary" />
+                  <span className="font-display text-2xl text-border transition-colors group-hover:text-primary/35">{item.number}</span>
                 </div>
-                <h3 className="mt-4 font-display text-lg font-semibold leading-snug text-foreground">
-                  {skill.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {skill.description}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+                <h3 className="mt-12 font-display text-xl font-semibold leading-snug text-foreground">{item.title}</h3>
+                <p className="mt-4 text-sm leading-6 text-muted-foreground">{item.description}</p>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
   );
+}
+
+function Workflow() {
+  return (
+    <section className="bg-blue-tint py-24 sm:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <Reveal className="grid gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:items-end">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Document lifecycle</p>
+            <h2 className="mt-3 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">From receipt to reliable record</h2>
+          </div>
+          <p className="max-w-2xl text-base leading-7 text-muted-foreground lg:justify-self-end">A representative document-control workflow illustrating the disciplined progression of information—not a proprietary process belonging to any specific employer.</p>
+        </Reveal>
+        <ol className="relative mt-14 grid gap-0 border border-border bg-background md:grid-cols-3 lg:grid-cols-6">
+          {WORKFLOW.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <li key={step.label} className="group relative grid min-h-44 grid-cols-[auto_minmax(0,1fr)] gap-4 border-b border-border p-5 last:border-b-0 md:block md:border-b md:border-r md:last:border-r-0 lg:border-b-0 lg:p-6">
+                <div className="grid h-10 w-10 shrink-0 place-items-center bg-secondary text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"><Icon className="h-5 w-5" /></div>
+                <div className="md:mt-9">
+                  <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-muted-foreground">0{index + 1}</span>
+                  <h3 className="mt-1 font-display text-lg font-semibold text-foreground">{step.label}</h3>
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">{step.description}</p>
+                </div>
+                {index < WORKFLOW.length - 1 ? <ArrowRight className="absolute -right-3 top-5 z-10 hidden h-5 w-5 bg-background text-primary lg:block" /> : null}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function ToolMark({ type, name }: { type: string; name: string }) {
+  if (type === "canva") return <span className="font-display text-xl font-semibold italic text-canva">Canva</span>;
+  if (type === "teams") return <span className="grid h-9 w-9 place-items-center rounded-sm bg-teams text-sm font-bold text-brand-foreground">T</span>;
+  if (type === "zoom") return <span className="grid h-9 w-9 place-items-center rounded-full bg-zoom text-[0.62rem] font-bold uppercase text-brand-foreground">zoom</span>;
+  if (type === "google") return <span className="grid grid-cols-2 gap-0.5" aria-label="Google Workspace mark"><i className="h-3 w-3 bg-google-blue" /><i className="h-3 w-3 bg-google-red" /><i className="h-3 w-3 bg-google-yellow" /><i className="h-3 w-3 bg-google-green" /></span>;
+  return <span className="text-sm font-bold tracking-[0.08em] text-primary">{name === "Techniplanet" ? "TP" : "AIM"}</span>;
 }
 
 function Tools() {
   return (
-    <section id="tools" className="scroll-mt-20 bg-blue-tint py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Tools & Systems"
-          title="Platforms I work with daily"
-          intro="Systems used across document control, coordination, and day-to-day administration."
-        />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {TOOLS.map((tool, i) => (
-            <Reveal key={tool.name} delay={(i % 3) * 90}>
-              <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-secondary text-primary">
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    {i === 0 && <path d="M12 2v4m0 12v4M2 12h4m12 0h4m-2.5-8.5-2.8 2.8M7.3 16.7l-2.8 2.8m0-15 2.8 2.8m9.4 9.4 2.8 2.8M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />}
-                    {i === 1 && <path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.5-3 5.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3C6.2 13.5 5 11.4 5 9a7 7 0 0 1 7-7Zm-4 21h8" />}
-                    {i === 2 && <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c2.5 2.2 4 5.4 4 9s-1.5 6.8-4 9m0-18c-2.5 2.2-4 5.4-4 9s1.5 6.8 4 9M3.5 9h17m-17 6h17" />}
-                    {i === 3 && <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm14 10v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8" />}
-                    {i === 4 && <path d="M15 10l5.5-3.5v11L15 14v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v3Z" />}
-                    {i === 5 && <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" />}
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <h3 className="truncate text-sm font-semibold text-foreground">{tool.name}</h3>
-                  <p className="mt-0.5 truncate text-xs text-muted-foreground">{tool.label}</p>
-                </div>
+    <section id="tools" className="scroll-mt-20 bg-ivory py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <SectionTitle index="04" eyebrow="Tools & Systems" title="Practical fluency across daily platforms" intro="Recognizable brand marks are shown for established collaboration tools. AIM and Techniplanet remain labeled monograms until verified official assets are supplied." />
+        <div className="mt-16 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">
+          {TOOLS.map((tool) => (
+            <Reveal key={tool.name} className="group flex min-h-40 items-center gap-5 border-b border-r border-border bg-background p-6 transition-colors hover:bg-blue-tint sm:p-8">
+              <div className="grid h-16 w-16 shrink-0 place-items-center border border-border bg-background shadow-sm"><ToolMark type={tool.type} name={tool.name} /></div>
+              <div className="min-w-0">
+                <h3 className="font-display text-xl font-semibold text-foreground">{tool.name}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground opacity-80 transition-opacity group-hover:opacity-100">{tool.description}</p>
               </div>
             </Reveal>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Strengths() {
+  const icons = [ListChecks, CheckCircle2, ArrowRight, UsersRound, Database, LockKeyhole, Eye, ClipboardCheck];
+  return (
+    <section className="bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-20">
+          <Reveal>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Professional strengths</p>
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">The qualities that protect the work</h2>
+            <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">Technical systems matter. Their reliability depends on consistent judgment, disciplined habits, and respect for sensitive information.</p>
+          </Reveal>
+          <div className="border-t border-border">
+            {STRENGTHS.map((strength, index) => {
+              const Icon = icons[index] ?? CheckCircle2;
+              return (
+                <Reveal key={strength} className="group grid grid-cols-[3rem_minmax(0,1fr)_auto] items-center border-b border-border py-5 sm:grid-cols-[5rem_minmax(0,1fr)_auto]">
+                  <span className="text-xs font-semibold text-muted-foreground">0{index + 1}</span>
+                  <h3 className="font-display text-xl font-semibold text-foreground sm:text-2xl">{strength}</h3>
+                  <Icon className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -525,65 +573,27 @@ function Tools() {
 
 function Contact() {
   return (
-    <section id="contact" className="scroll-mt-20 bg-background py-20 sm:py-24">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Contact"
-          title="Let's connect"
-          intro="Available for discussion regarding document control, office administration, or project coordination opportunities."
-        />
-
-        <Reveal delay={120}>
-          <div className="mt-12 rounded-2xl border border-border bg-beige p-8 shadow-sm sm:p-10">
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="flex items-start gap-3">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-background text-primary shadow-sm">
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.5 2.8.7a2 2 0 0 1 1.7 2Z" />
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Phone</p>
-                  <p className="mt-1 text-sm font-medium text-foreground">+00 000 000 000</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-background text-primary shadow-sm">
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M4 4h16v16H4zM4 7l8 6 8-6" />
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Email</p>
-                  <p className="mt-1 break-words text-sm font-medium text-foreground">{EMAIL}</p>
-                </div>
-              </div>
+    <section id="contact" className="scroll-mt-20 bg-navy text-navy-foreground">
+      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+        <Reveal>
+          <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-powder"><span className="h-px w-12 bg-powder" />Let’s connect</div>
+          <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.55fr)] lg:items-end">
+            <div>
+              <h2 className="font-display text-5xl font-semibold leading-[1.04] sm:text-6xl lg:text-7xl">Experience you can rely on. <span className="italic text-powder">Let’s talk.</span></h2>
+              <a href={`mailto:${PROFILE.email}`} className="mt-9 inline-block break-all border-b border-powder/45 pb-2 text-lg font-medium text-navy-foreground transition-colors hover:text-powder sm:text-2xl">{PROFILE.email}</a>
             </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href={`mailto:${EMAIL}`}
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-              >
-                <Mail className="h-4 w-4" aria-hidden="true" />
-                Email Me
-              </a>
-              <a
-                href={LINKEDIN_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
-              >
-                <Linkedin className="h-4 w-4" aria-hidden="true" />
-                LinkedIn
-              </a>
-              <a
-                href={CV_URL}
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
-              >
-                <Download className="h-4 w-4" aria-hidden="true" />
-                Download CV
-              </a>
+            <div className="grid gap-3">
+              <Button asChild size="lg" className="h-13 justify-between rounded-none bg-navy-foreground px-5 text-navy hover:bg-powder">
+                <a href={`mailto:${PROFILE.email}`}>Send an email <Mail /></a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="h-13 justify-between rounded-none border-navy-foreground/30 bg-transparent px-5 text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground">
+                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">Connect on LinkedIn <Linkedin /></a>
+              </Button>
+              {PROFILE.cvUrl ? (
+                <Button asChild variant="outline" size="lg" className="h-13 justify-between rounded-none border-navy-foreground/30 bg-transparent px-5 text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"><a href={PROFILE.cvUrl} download>Download CV <Download /></a></Button>
+              ) : (
+                <Button disabled variant="outline" size="lg" className="h-13 justify-between rounded-none border-navy-foreground/20 bg-transparent px-5 text-navy-foreground/55">CV available soon <Download /></Button>
+              )}
             </div>
           </div>
         </Reveal>
@@ -594,31 +604,35 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border/70 bg-beige py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 text-center sm:px-6">
-        <Monogram size="md" />
-        <p className="mt-2 text-sm font-medium text-foreground">Pel Scofield</p>
-        <p className="text-xs text-muted-foreground">
-          Document Control | Office Administration | Project Coordination
-        </p>
-        <p className="mt-3 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Pel Scofield. All rights reserved.
-        </p>
+    <footer className="border-t border-navy-foreground/15 bg-navy py-7 text-navy-foreground">
+      <div className="mx-auto grid max-w-7xl gap-5 px-5 text-xs sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:px-8 lg:px-12">
+        <div className="min-w-0">
+          <p className="font-display text-lg font-semibold">{PROFILE.name}</p>
+          <p className="mt-1 text-navy-foreground/55">{PROFILE.title}</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-navy-foreground/70">
+          <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="transition-colors hover:text-powder">LinkedIn</a>
+          <a href={`mailto:${PROFILE.email}`} className="transition-colors hover:text-powder">Email</a>
+          <span>© {new Date().getFullYear()} Eduardo Yahot</span>
+        </div>
       </div>
     </footer>
   );
 }
 
-function Index() {
+function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       <main>
         <Hero />
+        <Snapshot />
         <About />
         <Experience />
-        <Skills />
+        <Expertise />
+        <Workflow />
         <Tools />
+        <Strengths />
         <Contact />
       </main>
       <Footer />
