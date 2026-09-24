@@ -200,3 +200,39 @@
     transition: none;
   }
 }
+
+@media (max-width: 767px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .hero-grid {
+    background-size: 3.5rem 3.5rem;
+  }
+
+  .section-heading h2 {
+    font-size: 2.25rem;
+    line-height: 1.1;
+  }
+
+  .section-heading {
+    gap: 1rem;
+    padding-top: 1.25rem;
+  }
+
+  .section-heading > div:first-child {
+    font-size: 0.65rem;
+  }
+
+  .section-heading > div:first-child .h-px {
+    width: 1.5rem;
+  }
+
+  .reveal {
+    transform: translateY(10px);
+  }
+
+  .nav-link {
+    padding-block: 0.75rem;
+  }
+}

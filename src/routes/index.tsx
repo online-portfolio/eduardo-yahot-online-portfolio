@@ -242,7 +242,7 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 
 function SectionTitle({ index, eyebrow, title, intro }: { index: string; eyebrow: string; title: string; intro?: string }) {
   return (
-    <Reveal className="grid gap-5 border-t border-border pt-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-10">
+    <Reveal className="section-heading grid gap-5 border-t border-border pt-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-10">
       <div className="flex items-center gap-3 self-start text-xs font-semibold uppercase tracking-[0.18em] text-primary">
         <span>{index}</span>
         <span className="h-px w-8 bg-primary/40" />
@@ -274,7 +274,7 @@ function Navigation() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur-md">
+    <header className="relative sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur-md">
       <div className="mx-auto grid h-18 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:flex sm:justify-between sm:px-8 lg:px-12">
         <a href="#home" className="flex min-w-0 items-center gap-3" aria-label="Eduardo Yahot, home">
           <span className="grid h-9 w-9 shrink-0 place-items-center border border-primary bg-primary text-xs font-semibold text-primary-foreground">EY</span>
@@ -304,7 +304,7 @@ function Navigation() {
           {open ? <X /> : <Menu />}
         </Button>
         {open ? (
-          <nav className="col-span-2 grid border-t border-border py-3 sm:absolute sm:left-0 sm:right-0 sm:top-18 sm:bg-background sm:px-8 lg:hidden" aria-label="Mobile navigation">
+          <nav className="absolute left-0 right-0 top-full grid border-t border-border bg-background px-5 py-3 shadow-editorial sm:px-8 lg:hidden" aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => (
               <a key={link.id} href={link.href} onClick={() => setOpen(false)} className="border-b border-border/60 py-3 text-sm font-medium text-foreground last:border-0">
                 {link.label}
@@ -321,27 +321,27 @@ function Hero() {
   return (
     <section id="home" className="relative scroll-mt-20 overflow-hidden bg-ivory">
       <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
-      <div className="relative mx-auto grid min-h-[calc(100svh-4.5rem)] max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 md:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.72fr)] md:py-20 lg:gap-24 lg:px-12">
+      <div className="relative mx-auto grid min-h-0 max-w-7xl items-center gap-10 px-5 py-12 sm:px-8 md:min-h-[calc(100svh-4.5rem)] md:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.72fr)] md:py-20 lg:gap-24 lg:px-12">
         <div className="max-w-4xl">
           <Reveal>
             <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
               <span className="h-px w-12 bg-primary" />
               Executive professional portfolio
             </div>
-            <p className="mt-8 font-display text-2xl font-medium text-primary sm:text-3xl">{PROFILE.name}</p>
-            <h1 className="mt-5 max-w-4xl font-display text-4xl font-semibold leading-[1.04] text-foreground sm:text-5xl lg:text-6xl">
+            <p className="mt-6 font-display text-2xl font-medium text-primary sm:mt-8 sm:text-3xl">{PROFILE.name}</p>
+            <h1 className="mt-4 max-w-4xl font-display text-3xl font-semibold leading-[1.08] text-foreground sm:mt-5 sm:text-5xl lg:text-6xl">
               {PROFILE.headline}
             </h1>
-            <p className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-foreground/75">{PROFILE.title}</p>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">{PROFILE.summary}</p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="h-12 rounded-none px-6">
+            <p className="mt-5 text-xs font-semibold uppercase leading-5 tracking-[0.14em] text-foreground/75 sm:mt-7 sm:text-sm sm:tracking-[0.16em]">{PROFILE.title}</p>
+            <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">{PROFILE.summary}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
+              <Button asChild size="lg" className="h-12 w-full rounded-none px-6 sm:w-auto">
                 <a href="#experience">View Experience <ArrowDown /></a>
               </Button>
-              <Button asChild variant="outline" size="lg" className="h-12 rounded-none border-foreground/25 bg-transparent px-6">
+              <Button asChild variant="outline" size="lg" className="h-12 w-full rounded-none border-foreground/25 bg-transparent px-6 sm:w-auto">
                 <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer">Contact Me <Mail /></a>
               </Button>
-              <Button asChild variant="ghost" size="lg" className="h-12 rounded-none px-5">
+              <Button asChild variant="ghost" size="lg" className="h-12 w-full rounded-none px-5 sm:w-auto">
                 <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">LinkedIn <Linkedin /></a>
               </Button>
             </div>
@@ -395,7 +395,7 @@ function About() {
     <section id="about" className="scroll-mt-20 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <SectionTitle index="01" eyebrow="About Eduardo" title="Steady expertise behind complex operations" />
-        <div className="mt-14 grid gap-12 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-20 lg:ml-[11.5rem]">
+        <div className="mt-10 grid gap-9 md:mt-14 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-20 lg:ml-[11.5rem]">
           <Reveal>
             <blockquote className="border-l-2 border-primary pl-6 font-display text-2xl leading-snug text-foreground sm:text-3xl">
               “Clear records, accurate information, and dependable follow-through create the foundation for confident project decisions.”
@@ -422,15 +422,15 @@ function Experience() {
     <section id="experience" className="scroll-mt-20 bg-beige py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <SectionTitle index="02" eyebrow="Professional Experience" title="A 28-year career in controlled information and project support" />
-        <div className="relative mt-16 md:mt-20">
+        <div className="relative mt-10 md:mt-20">
           <div className="absolute bottom-0 left-3 top-0 w-px bg-primary/25 md:left-1/2" aria-hidden="true" />
           <ol className="space-y-10 md:space-y-0">
             {EXPERIENCE.map((job, index) => (
               <li key={index} className={`relative pl-12 md:grid md:grid-cols-2 md:pl-0 ${index > 0 ? "md:-mt-8" : ""}`}>
                 <span className="absolute left-0 top-7 grid h-6 w-6 place-items-center border border-primary bg-beige md:left-1/2 md:-translate-x-1/2" aria-hidden="true"><span className="h-1.5 w-1.5 bg-primary" /></span>
                 <Reveal className={`${index % 2 === 0 ? "md:col-start-1 md:pr-16" : "md:col-start-2 md:pl-16"}`}>
-                  <article className="border-t border-primary/40 bg-background p-6 shadow-editorial sm:p-8">
-                    <div className="flex items-center justify-between gap-4">
+                  <article className="border-t border-primary/40 bg-background p-5 shadow-editorial sm:p-8">
+                    <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Role {index + 1}</span>
                       <span className="text-xs text-muted-foreground">{job.period}</span>
                     </div>
@@ -470,7 +470,7 @@ function Expertise() {
     <section id="expertise" className="scroll-mt-20 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <SectionTitle index="03" eyebrow="Core Expertise" title="Depth across the information lifecycle" intro="A connected practice spanning controlled documentation, reliable administration, and precise project support." />
-        <div className="mt-16 grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid border-l border-t border-border md:mt-16 md:grid-cols-2 lg:grid-cols-4">
           {EXPERTISE.map((item) => {
             const Icon = item.icon;
             return (
@@ -500,7 +500,7 @@ function Workflow() {
             <h2 className="mt-3 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">From receipt to reliable record</h2>
           </div>
         </Reveal>
-        <ol className="relative mt-14 grid gap-0 border border-border bg-background md:grid-cols-3 lg:grid-cols-6">
+        <ol className="relative mt-10 grid gap-0 border border-border bg-background md:mt-14 md:grid-cols-3 lg:grid-cols-6">
           {WORKFLOW.map((step, index) => {
             const Icon = step.icon;
             return (
@@ -547,7 +547,7 @@ function Tools() {
     <section id="tools" className="scroll-mt-20 bg-ivory py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         <SectionTitle index="04" eyebrow="Tools & Systems" title="Practical fluency across daily platforms" />
-        <div className="mt-16 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid border-l border-t border-border sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => (
             <Reveal key={tool.name} className="group flex min-h-40 items-center gap-5 border-b border-r border-border bg-background p-6 transition-colors hover:bg-blue-tint sm:p-8">
               <div className="grid h-16 w-16 shrink-0 place-items-center border border-border bg-background shadow-sm"><ToolMark type={tool.type} name={tool.name} iconUrl={tool.iconUrl} fallback={tool.fallback} /></div>
@@ -614,7 +614,7 @@ function Contact() {
           <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-powder"><span className="h-px w-12 bg-powder" />Let’s connect</div>
           <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.55fr)] lg:items-end">
             <div>
-              <h2 className="font-display text-5xl font-semibold leading-[1.04] sm:text-6xl lg:text-7xl">Experience you can rely on. <span className="italic text-powder">Let’s talk.</span></h2>
+              <h2 className="font-display text-4xl font-semibold leading-[1.06] sm:text-6xl lg:text-7xl">Experience you can rely on. <span className="italic text-powder">Let’s talk.</span></h2>
               <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer" className="mt-9 inline-block break-all border-b border-powder/45 pb-2 text-lg font-medium text-navy-foreground transition-colors hover:text-powder sm:text-2xl">{PROFILE.email}</a>
             </div>
             <div className="grid gap-3">
