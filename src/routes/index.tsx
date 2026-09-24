@@ -352,7 +352,7 @@ function Hero() {
           <div className="absolute -left-6 top-8 h-[82%] w-full border border-primary/20 bg-blue-tint" aria-hidden="true" />
           <figure className="relative border border-border bg-background p-3 shadow-editorial">
             <img
-              src=`${import.meta.env.BASE_URL}id.jpg`
+              src={`${import.meta.env.BASE_URL}id.jpg`}
               alt="Eduardo Yahot"
               width={1200}
               height={1500}
