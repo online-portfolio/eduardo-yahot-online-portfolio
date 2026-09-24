@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ComponentType, type FormEvent, type ReactNode } from "react";
 import {
   Archive,
   ArrowDown,
@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Database,
-  Download,
   Eye,
   FileArchive,
   FileCheck2,
@@ -28,7 +27,6 @@ import {
   X,
 } from "lucide-react";
 
-import portraitPlaceholder from "@/assets/eduardo-portrait-placeholder.jpg";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -74,12 +72,13 @@ const PROFILE = {
   initials: "EY",
   email: "eduardoyahot.va@gmail.com",
   linkedin: "https://www.linkedin.com/in/eduardo-y-2a6930400/",
-  cvUrl: "", // Add a public CV file path here, for example: /eduardo-yahot-cv.pdf
   title: "Document Control | Office Administration | Project Coordination",
-  headline: "28 Years of Experience in Document Control & Project Administration",
+  headline: "Experienced Document Controller and Project Support Specialist with nearly three decades in multinational environments, now expanding into virtual assistance.",
   summary:
     "Highly organized and adaptable professional with 28 years of extensive experience within multinational companies, specializing in document control, office administration, and project coordination.",
 };
+
+const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(PROFILE.email)}`;
 
 const NAV_LINKS = [
   { label: "Home", href: "#home", id: "home" },
@@ -99,35 +98,35 @@ const SNAPSHOT = [
 
 const EXPERIENCE = [
   {
-    period: "YYYY — YYYY",
-    company: "[Company name]",
-    role: "[Job title]",
-    location: "[City, Country]",
-    details: [
-      "[Add a concise responsibility, contribution, or achievement from this role.]",
-      "[Add the systems, document scope, or project teams supported.]",
+    period: "Feb 2019 — Jan 2026 · 7 yrs",
+    company: "TTSJV",
+    role: "Document Controller",
+    location: "Bahrain · On-site",
+    responsibilities: [
+      "Quality-check and distribute documents produced at site and at Headquarters, as well as documents received from Subcontractors.",
+      "Distribute documentation according to matrices established by the Site Manager, Field Engineering Manager, and Construction Manager to internal users, Subcontractors, and the Client as appropriate.",
     ],
+    achievements: ["Maintained controlled document flow across site, Headquarters, Subcontractors, internal users, and Client stakeholders."],
+    tools: ["AIM", "Techniplanet", "Electronic Document Management System (EDMS)"],
   },
   {
-    period: "YYYY — YYYY",
-    company: "[Company name]",
-    role: "[Job title]",
-    location: "[City, Country]",
-    details: [
-      "[Add a concise responsibility, contribution, or achievement from this role.]",
-      "[Add the systems, document scope, or project teams supported.]",
-    ],
+    period: "Jan 2016 — Jan 2019 · 3 yrs 1 mo",
+    company: "Nass Contracting",
+    role: "Document Controller",
+    location: "Manama, Capital Governorate, Bahrain · On-site",
+    responsibilities: [],
+    achievements: [],
+    tools: [],
   },
   {
-    period: "YYYY — YYYY",
-    company: "[Company name]",
-    role: "[Job title]",
-    location: "[City, Country]",
-    details: [
-      "[Add a concise responsibility, contribution, or achievement from this role.]",
-      "[Add the systems, document scope, or project teams supported.]",
-    ],
-  },
+    period: "Apr 2009 — Apr 2014 · 5 yrs 1 mo",
+    company: "Al Yamama Company",
+    role: "Document Controller",
+    location: "Riyadh, Saudi Arabia · On-site",
+    responsibilities: [],
+    achievements: [],
+    tools: [],
+  }, 
 ];
 
 const EXPERTISE: Array<{
@@ -198,10 +197,10 @@ const WORKFLOW = [
 const TOOLS = [
   { name: "AIM", type: "monogram", description: "Document and information management platform" },
   { name: "Techniplanet", type: "monogram", description: "Engineering document management system" },
-  { name: "Canva", type: "canva", description: "Professional visual communication and presentations" },
-  { name: "Microsoft Teams", type: "teams", description: "Cross-team communication and collaboration" },
-  { name: "Zoom", type: "zoom", description: "Remote meetings and stakeholder coordination" },
-  { name: "Google Workspace", type: "google", description: "Documents, spreadsheets, storage, and shared workflows" },
+  { name: "Canva", type: "brand", fallback: "Canva", iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/canva.svg", description: "Professional visual communication and presentations" },
+  { name: "Microsoft Teams", type: "brand", fallback: "Teams", iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/microsoftteams.svg", description: "Cross-team communication and collaboration" },
+  { name: "Zoom", type: "brand", fallback: "zoom", iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/zoom.svg", description: "Remote meetings and stakeholder coordination" },
+  { name: "Google Workspace", type: "brand", fallback: "Google", iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googleworkspace.svg", description: "Documents, spreadsheets, storage, and shared workflows" },
 ];
 
 const STRENGTHS = [
@@ -330,8 +329,8 @@ function Hero() {
               Executive professional portfolio
             </div>
             <p className="mt-8 font-display text-2xl font-medium text-primary sm:text-3xl">{PROFILE.name}</p>
-            <h1 className="mt-5 max-w-4xl font-display text-5xl font-semibold leading-[0.98] text-foreground sm:text-6xl lg:text-7xl">
-              28 Years of Experience in <span className="italic text-primary">Document Control</span> & Project Administration
+            <h1 className="mt-5 max-w-4xl font-display text-4xl font-semibold leading-[1.04] text-foreground sm:text-5xl lg:text-6xl">
+              {PROFILE.headline}
             </h1>
             <p className="mt-7 text-sm font-semibold uppercase tracking-[0.16em] text-foreground/75">{PROFILE.title}</p>
             <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">{PROFILE.summary}</p>
@@ -340,7 +339,7 @@ function Hero() {
                 <a href="#experience">View Experience <ArrowDown /></a>
               </Button>
               <Button asChild variant="outline" size="lg" className="h-12 rounded-none border-foreground/25 bg-transparent px-6">
-                <a href={`mailto:${PROFILE.email}`}>Contact Me <Mail /></a>
+                <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer">Contact Me <Mail /></a>
               </Button>
               <Button asChild variant="ghost" size="lg" className="h-12 rounded-none px-5">
                 <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">LinkedIn <Linkedin /></a>
@@ -352,16 +351,15 @@ function Hero() {
         <Reveal className="relative mx-auto w-full max-w-md md:max-w-none">
           <div className="absolute -left-6 top-8 h-[82%] w-full border border-primary/20 bg-blue-tint" aria-hidden="true" />
           <figure className="relative border border-border bg-background p-3 shadow-editorial">
-            {/* Replace this imported placeholder with Eduardo's real portrait when supplied. */}
             <img
-              src={portraitPlaceholder}
-              alt="Generic corporate portrait placeholder—not Eduardo Yahot"
+              src="/id.jpg"
+              alt="Eduardo Yahot"
               width={1200}
               height={1500}
-              className="aspect-[4/5] w-full object-cover object-top grayscale-[12%]"
+              className="aspect-[4/5] w-full object-cover object-top mix-blend-multiply"
             />
             <figcaption className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-t border-border px-1 pt-3 text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
-              <span className="min-w-0">Portrait placeholder — replace with Eduardo’s photo</span>
+              <span className="min-w-0">Eduardo Yahot · professional profile</span>
               <span className="shrink-0 text-primary">01 / Profile</span>
             </figcaption>
           </figure>
@@ -423,7 +421,7 @@ function Experience() {
   return (
     <section id="experience" className="scroll-mt-20 bg-beige py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-        <SectionTitle index="02" eyebrow="Professional Experience" title="A 28-year career, ready to document in full" intro="The framework below is intentionally ready for Eduardo’s exact LinkedIn history. No employer, title, date, location, or achievement has been invented." />
+        <SectionTitle index="02" eyebrow="Professional Experience" title="A 28-year career in controlled information and project support" />
         <div className="relative mt-16 md:mt-20">
           <div className="absolute bottom-0 left-3 top-0 w-px bg-primary/25 md:left-1/2" aria-hidden="true" />
           <ol className="space-y-10 md:space-y-0">
@@ -433,23 +431,34 @@ function Experience() {
                 <Reveal className={`${index % 2 === 0 ? "md:col-start-1 md:pr-16" : "md:col-start-2 md:pl-16"}`}>
                   <article className="border-t border-primary/40 bg-background p-6 shadow-editorial sm:p-8">
                     <div className="flex items-center justify-between gap-4">
-                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Editable entry {index + 1}</span>
+                      <span className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Role {index + 1}</span>
                       <span className="text-xs text-muted-foreground">{job.period}</span>
                     </div>
                     <h3 className="mt-6 font-display text-2xl font-semibold text-foreground">{job.role}</h3>
                     <p className="mt-1 font-medium text-primary">{job.company}</p>
                     <p className="mt-1 text-sm text-muted-foreground">{job.location}</p>
-                    <ul className="mt-6 space-y-3 border-t border-border pt-5">
-                      {job.details.map((detail) => <li key={detail} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="mt-2 h-1 w-1 shrink-0 bg-primary" />{detail}</li>)}
-                    </ul>
+                    {job.responsibilities.length || job.achievements.length ? (
+                      <div className="mt-6 grid gap-6 border-t border-border pt-5 sm:grid-cols-2">
+                        {job.responsibilities.length ? <div>
+                          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary">Responsibilities</p>
+                          <ul className="mt-3 space-y-2">
+                            {job.responsibilities.map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="mt-2 h-1 w-1 shrink-0 bg-primary" />{item}</li>)}
+                          </ul>
+                        </div> : null}
+                        {job.achievements.length ? <div>
+                          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-primary">Achievements</p>
+                          <ul className="mt-3 space-y-2">
+                            {job.achievements.map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="mt-2 h-1 w-1 shrink-0 bg-primary" />{item}</li>)}
+                          </ul>
+                        </div> : null}
+                      </div>
+                    ) : null}
+                    {job.tools.length ? <p className="mt-6 border-t border-border pt-4 text-xs leading-5 text-muted-foreground"><span className="font-semibold uppercase tracking-[0.12em] text-foreground">Tools / systems:</span> {job.tools.join(" · ")}</p> : null}
                   </article>
                 </Reveal>
               </li>
             ))}
           </ol>
-          <div className="relative mt-12 flex items-center justify-center">
-            <span className="relative border border-primary/30 bg-beige px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary">Add earlier roles as needed</span>
-          </div>
         </div>
       </div>
     </section>
@@ -490,7 +499,6 @@ function Workflow() {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Document lifecycle</p>
             <h2 className="mt-3 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">From receipt to reliable record</h2>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-muted-foreground lg:justify-self-end">A representative document-control workflow illustrating the disciplined progression of information—not a proprietary process belonging to any specific employer.</p>
         </Reveal>
         <ol className="relative mt-14 grid gap-0 border border-border bg-background md:grid-cols-3 lg:grid-cols-6">
           {WORKFLOW.map((step, index) => {
@@ -513,23 +521,36 @@ function Workflow() {
   );
 }
 
-function ToolMark({ type, name }: { type: string; name: string }) {
-  if (type === "canva") return <span className="font-display text-xl font-semibold italic text-canva">Canva</span>;
-  if (type === "teams") return <span className="grid h-9 w-9 place-items-center rounded-sm bg-teams text-sm font-bold text-brand-foreground">T</span>;
-  if (type === "zoom") return <span className="grid h-9 w-9 place-items-center rounded-full bg-zoom text-[0.62rem] font-bold uppercase text-brand-foreground">zoom</span>;
-  if (type === "google") return <span className="grid grid-cols-2 gap-0.5" aria-label="Google Workspace mark"><i className="h-3 w-3 bg-google-blue" /><i className="h-3 w-3 bg-google-red" /><i className="h-3 w-3 bg-google-yellow" /><i className="h-3 w-3 bg-google-green" /></span>;
-  return <span className="text-sm font-bold tracking-[0.08em] text-primary">{name === "Techniplanet" ? "TP" : "AIM"}</span>;
+function ToolMark({ type, name, iconUrl, fallback }: { type: string; name: string; iconUrl?: string | undefined; fallback?: string | undefined }) {
+  if (type === "brand" && iconUrl) {
+    return (
+      <span className="relative grid h-11 min-w-11 place-items-center">
+        <img
+          src={iconUrl}
+          alt={`${name} logo`}
+          className="h-9 w-9 object-contain"
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.classList.add("hidden");
+            event.currentTarget.nextElementSibling?.classList.remove("hidden");
+          }}
+        />
+        <span className="hidden text-center text-[0.62rem] font-bold uppercase tracking-[0.06em] text-primary">{fallback ?? name}</span>
+      </span>
+    );
+  }
+  return <span className="text-center text-[0.65rem] font-bold uppercase tracking-[0.08em] text-primary">{name === "Techniplanet" ? "TP" : "AIM"}</span>;
 }
 
 function Tools() {
   return (
     <section id="tools" className="scroll-mt-20 bg-ivory py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-        <SectionTitle index="04" eyebrow="Tools & Systems" title="Practical fluency across daily platforms" intro="Recognizable brand marks are shown for established collaboration tools. AIM and Techniplanet remain labeled monograms until verified official assets are supplied." />
+        <SectionTitle index="04" eyebrow="Tools & Systems" title="Practical fluency across daily platforms" />
         <div className="mt-16 grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => (
             <Reveal key={tool.name} className="group flex min-h-40 items-center gap-5 border-b border-r border-border bg-background p-6 transition-colors hover:bg-blue-tint sm:p-8">
-              <div className="grid h-16 w-16 shrink-0 place-items-center border border-border bg-background shadow-sm"><ToolMark type={tool.type} name={tool.name} /></div>
+              <div className="grid h-16 w-16 shrink-0 place-items-center border border-border bg-background shadow-sm"><ToolMark type={tool.type} name={tool.name} iconUrl={tool.iconUrl} fallback={tool.fallback} /></div>
               <div className="min-w-0">
                 <h3 className="font-display text-xl font-semibold text-foreground">{tool.name}</h3>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground opacity-80 transition-opacity group-hover:opacity-100">{tool.description}</p>
@@ -551,7 +572,6 @@ function Strengths() {
           <Reveal>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Professional strengths</p>
             <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">The qualities that protect the work</h2>
-            <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground">Technical systems matter. Their reliability depends on consistent judgment, disciplined habits, and respect for sensitive information.</p>
           </Reveal>
           <div className="border-t border-border">
             {STRENGTHS.map((strength, index) => {
@@ -572,6 +592,21 @@ function Strengths() {
 }
 
 function Contact() {
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const subject = String(form.get("subject") ?? "");
+    const details = String(form.get("details") ?? "");
+    const body = [`Name: ${name}`, `Email: ${email}`, "", details].join("\n");
+    const gmailUrl = `${GMAIL_COMPOSE_URL}&su=${encodeURIComponent(subject || "Portfolio enquiry")}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+    setSubmitted(true);
+  }
+
   return (
     <section id="contact" className="scroll-mt-20 bg-navy text-navy-foreground">
       <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
@@ -580,20 +615,25 @@ function Contact() {
           <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.55fr)] lg:items-end">
             <div>
               <h2 className="font-display text-5xl font-semibold leading-[1.04] sm:text-6xl lg:text-7xl">Experience you can rely on. <span className="italic text-powder">Let’s talk.</span></h2>
-              <a href={`mailto:${PROFILE.email}`} className="mt-9 inline-block break-all border-b border-powder/45 pb-2 text-lg font-medium text-navy-foreground transition-colors hover:text-powder sm:text-2xl">{PROFILE.email}</a>
+              <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer" className="mt-9 inline-block break-all border-b border-powder/45 pb-2 text-lg font-medium text-navy-foreground transition-colors hover:text-powder sm:text-2xl">{PROFILE.email}</a>
             </div>
             <div className="grid gap-3">
-              <Button asChild size="lg" className="h-13 justify-between rounded-none bg-navy-foreground px-5 text-navy hover:bg-powder">
-                <a href={`mailto:${PROFILE.email}`}>Send an email <Mail /></a>
-              </Button>
+              <form onSubmit={handleSubmit} className="grid gap-3" aria-label="Contact Eduardo Yahot">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <label className="sr-only" htmlFor="contact-name">Your name</label>
+                  <input id="contact-name" name="name" required placeholder="Your name" className="h-13 rounded-none border border-navy-foreground/30 bg-navy-foreground px-4 text-sm text-navy outline-none placeholder:text-navy/45 focus:ring-2 focus:ring-powder" />
+                  <label className="sr-only" htmlFor="contact-email">Email address</label>
+                  <input id="contact-email" name="email" type="email" required placeholder="Email address" className="h-13 rounded-none border border-navy-foreground/30 bg-navy-foreground px-4 text-sm text-navy outline-none placeholder:text-navy/45 focus:ring-2 focus:ring-powder" />
+                </div>
+                <label className="sr-only" htmlFor="contact-subject">Subject</label>
+                <input id="contact-subject" name="subject" placeholder="Subject" className="h-13 rounded-none border border-navy-foreground/30 bg-navy-foreground px-4 text-sm text-navy outline-none placeholder:text-navy/45 focus:ring-2 focus:ring-powder" />
+                <label className="sr-only" htmlFor="contact-details">Details</label>
+                <textarea id="contact-details" name="details" required rows={5} placeholder="Tell Eduardo a little about your project or enquiry..." className="resize-y rounded-none border border-navy-foreground/30 bg-navy-foreground px-4 py-3 text-sm text-navy outline-none placeholder:text-navy/45 focus:ring-2 focus:ring-powder" />
+                <Button type="submit" size="lg" className="h-13 justify-between rounded-none bg-powder px-5 text-navy hover:bg-navy-foreground">{submitted ? "Email draft opened" : "Send an email"} <Mail /></Button>
+              </form>
               <Button asChild variant="outline" size="lg" className="h-13 justify-between rounded-none border-navy-foreground/30 bg-transparent px-5 text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground">
                 <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">Connect on LinkedIn <Linkedin /></a>
               </Button>
-              {PROFILE.cvUrl ? (
-                <Button asChild variant="outline" size="lg" className="h-13 justify-between rounded-none border-navy-foreground/30 bg-transparent px-5 text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"><a href={PROFILE.cvUrl} download>Download CV <Download /></a></Button>
-              ) : (
-                <Button disabled variant="outline" size="lg" className="h-13 justify-between rounded-none border-navy-foreground/20 bg-transparent px-5 text-navy-foreground/55">CV available soon <Download /></Button>
-              )}
             </div>
           </div>
         </Reveal>
@@ -612,7 +652,7 @@ function Footer() {
         </div>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-navy-foreground/70">
           <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="transition-colors hover:text-powder">LinkedIn</a>
-          <a href={`mailto:${PROFILE.email}`} className="transition-colors hover:text-powder">Email</a>
+          <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-powder">Email</a>
           <span>© {new Date().getFullYear()} Eduardo Yahot</span>
         </div>
       </div>
